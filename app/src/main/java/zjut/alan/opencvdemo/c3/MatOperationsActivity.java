@@ -58,7 +58,7 @@ public class MatOperationsActivity extends AppCompatActivity implements View.OnC
             //meanAndDev();
             //blendMat(1.5, 30);
             //adjustBrightAndContrast(60,60);
-            normAndAbs();
+            //normAndAbs();
         }
     }
 
