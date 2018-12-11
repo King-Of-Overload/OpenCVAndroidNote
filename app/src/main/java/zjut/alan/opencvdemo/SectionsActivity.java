@@ -16,6 +16,7 @@ import zjut.alan.opencvdemo.c1.TakePhotoActivity;
 import zjut.alan.opencvdemo.c2.ReadMatinfoActivity;
 import zjut.alan.opencvdemo.c3.MatOperationsActivity;
 import zjut.alan.opencvdemo.c4.ConvolutionActivity;
+import zjut.alan.opencvdemo.c5.ImageAnalysisActivity;
 
 public class SectionsActivity extends AppCompatActivity {
 
@@ -59,6 +60,9 @@ public class SectionsActivity extends AppCompatActivity {
             startActivity(intent);
         }else if(command.equals(AppConstants.CHAPTER_4TH_PGM)){
             Intent intent = new Intent(getApplicationContext(), ConvolutionActivity.class);
+            startActivity(intent);
+        }else if(command.equals(AppConstants.CHAPTER_5TH_PGM)){
+            Intent intent = new Intent(getApplicationContext(), ImageAnalysisActivity.class);
             startActivity(intent);
         }
     }

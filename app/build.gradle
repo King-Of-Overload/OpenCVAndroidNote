@@ -17,6 +17,12 @@ android {
         }
     }
 
+    //由于mips在17API之后弃用
+    packagingOptions{
+        exclude 'lib/mips64/*.so'
+        exclude 'lib/mips/*.so'
+    }
+
 
 }
 

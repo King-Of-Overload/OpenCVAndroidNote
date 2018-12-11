@@ -26,7 +26,8 @@
         <activity android:name=".c1.TakePhotoActivity" />
         <activity android:name=".c2.ReadMatinfoActivity" />
         <activity android:name=".c3.MatOperationsActivity" />
-        <activity android:name=".c4.ConvolutionActivity"></activity>
+        <activity android:name=".c4.ConvolutionActivity" />
+        <activity android:name=".c5.ImageAnalysisActivity"></activity>
     </application>
 
 </manifest>
