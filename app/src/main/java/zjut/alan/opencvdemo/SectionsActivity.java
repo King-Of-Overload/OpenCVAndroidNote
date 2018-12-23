@@ -17,6 +17,9 @@ import zjut.alan.opencvdemo.c2.ReadMatinfoActivity;
 import zjut.alan.opencvdemo.c3.MatOperationsActivity;
 import zjut.alan.opencvdemo.c4.ConvolutionActivity;
 import zjut.alan.opencvdemo.c5.ImageAnalysisActivity;
+import zjut.alan.opencvdemo.c7.CameraViewActivity;
+import zjut.alan.opencvdemo.c7.DisplayModeActivity;
+import zjut.alan.opencvdemo.c8.OcrDemoActivity;
 
 public class SectionsActivity extends AppCompatActivity {
 
@@ -63,6 +66,20 @@ public class SectionsActivity extends AppCompatActivity {
             startActivity(intent);
         }else if(command.equals(AppConstants.CHAPTER_5TH_PGM)){
             Intent intent = new Intent(getApplicationContext(), ImageAnalysisActivity.class);
+            startActivity(intent);
+        }else if(command.equals(AppConstants.CHAPTER_7TH_PGM)){
+            Intent intent = new Intent(getApplicationContext(), CameraViewActivity.class);
+            startActivity(intent);
+        }else if(command.equals(AppConstants.CHAPTER_7TH_PGM_VIEW_MODE)){
+            Intent intent = new Intent(getApplicationContext(), DisplayModeActivity.class);
+            startActivity(intent);
+        }else if(command.equals(AppConstants.CHAPTER_8TH_PGM_OCR)){
+            Intent intent = new Intent(getApplicationContext(), OcrDemoActivity.class);
+            intent.putExtra("TYPE", 1);
+            startActivity(intent);
+        }else if(command.equals(AppConstants.CHAPTER_8TH_PGM_ID_NUM)){
+            Intent intent = new Intent(getApplicationContext(), OcrDemoActivity.class);
+            intent.putExtra("TYPE", 2);
             startActivity(intent);
         }
     }

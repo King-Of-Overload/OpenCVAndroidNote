@@ -18,6 +18,7 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat;
 import org.opencv.core.MatOfInt;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
@@ -56,7 +57,7 @@ public class ImageAnalysisActivity extends AppCompatActivity implements View.OnC
         if(view.getId() == R.id.select_image_btn){
             pickUpImage();
         }else if(view.getId() == R.id.analysis_measure_btn){
-            analysisImage(5);
+            analysisImage(7);
         }
     }
 
@@ -184,6 +185,55 @@ public class ImageAnalysisActivity extends AppCompatActivity implements View.OnC
                     mathcloc.y + tpl.rows()),new Scalar(0,0,255),2,8,0);
             tpl.release();
             result.release();
+        }else if(section == 6){//Harris角点检测
+            //定义阈值T
+            int threshold = 100;
+            Mat gray = new Mat();
+            Mat response = new Mat();
+            Mat response_norm = new Mat();
+            //角点检测
+            Imgproc.cvtColor(src,gray,Imgproc.COLOR_BGR2GRAY);
+            Imgproc.cornerHarris(gray,response,2,3,0.04);
+            //归一化
+            Core.normalize(response,response_norm,0,255,Core.NORM_MINMAX,
+                    CvType.CV_32F);
+            //绘制角点
+            dst.create(src.size(),src.type());
+            src.copyTo(dst);
+            float[] data = new float[1];
+            for(int j = 0; j < response_norm.rows(); j++){
+                for(int i = 0; i < response_norm.cols(); i++){
+                    response_norm.get(j,i,data);//获取所有的角点值
+                    //通过阈值过滤角点
+                    if((int)data[0] > threshold){
+                        Imgproc.circle(dst,new Point(i,j),5,
+                                new Scalar(0,0,255),2,8,0);
+                        Log.i("Harris Corner","找到了角点");
+                    }
+                }
+            }
+            gray.release();
+            response.release();
+        }else if(section == 7){//Shi-Tomasi角点检测
+            double k = 0.04;
+            int blockSize = 3;
+            double qualityLevel = 0.01;
+            boolean useHarrisCorner = false;//不使用Harris角点检测
+            //角点检测
+            Mat gray = new Mat();
+            Imgproc.cvtColor(src,gray,Imgproc.COLOR_BGR2GRAY);
+            MatOfPoint corners = new MatOfPoint();
+            //该API直接返回点
+            Imgproc.goodFeaturesToTrack(gray,corners,100,qualityLevel,
+                    10,new Mat(),blockSize,useHarrisCorner,k);
+            //绘制角点
+            dst.create(src.size(),src.type());
+            src.copyTo(dst);
+            Point[] points = corners.toArray();
+            for (int i = 0; i < points.length; i++){
+                Imgproc.circle(dst,points[i],5,new Scalar(0,0,255),2,8,0);
+            }
+            gray.release();
         }
 
         Bitmap bm = Bitmap.createBitmap(dst.cols(),dst.rows(), Bitmap.Config.ARGB_8888);
