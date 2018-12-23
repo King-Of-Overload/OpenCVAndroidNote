@@ -16,6 +16,11 @@ import android.widget.TextView;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 
+import org.opencv.android.Utils;
+import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -74,7 +79,7 @@ public class OcrDemoActivity extends AppCompatActivity implements View.OnClickLi
                 if(option == 2) {
                     recognizeCardId();
                 } else if(option == 3) {
-                    //deSkewTextImage();
+                    deSkewTextImage();
                 }else {
                     recognizeTextImage();
                 }
@@ -83,6 +88,25 @@ public class OcrDemoActivity extends AppCompatActivity implements View.OnClickLi
                 break;
         }
     }
+
+    //倾斜校正
+    private void deSkewTextImage(){
+        Mat src = Imgcodecs.imread(fileUri.getPath());
+        if(src.empty()){
+            return;
+        }
+        Mat dst = new Mat();
+        CardNumberROIFinder.deSkewText(src,dst);
+        Bitmap bm = Bitmap.createBitmap(src.cols(), src.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(dst, bm);
+        //显示
+        ImageView iv = findViewById(R.id.chapter8_imageView);
+        iv.setImageBitmap(bm);
+        dst.release();
+        src.release();
+    }
+
+
 
     //识别身份证
     private void recognizeCardId(){

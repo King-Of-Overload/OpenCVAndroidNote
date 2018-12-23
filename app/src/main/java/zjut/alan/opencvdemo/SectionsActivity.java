@@ -81,6 +81,10 @@ public class SectionsActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), OcrDemoActivity.class);
             intent.putExtra("TYPE", 2);
             startActivity(intent);
+        }else if(command.equals(AppConstants.CHAPTER_8TH_PGM_DESKEW)){
+            Intent intent = new Intent(getApplicationContext(), OcrDemoActivity.class);
+            intent.putExtra("TYPE", 3);
+            startActivity(intent);
         }
     }
 }

@@ -7,8 +7,10 @@ import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
+import org.opencv.core.RotatedRect;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
@@ -77,6 +79,49 @@ public class CardNumberROIFinder {
         dst.release();
         return bmp;
     }
+
+    public static void deSkewText(Mat textImage, Mat dst){
+        //二值化图像
+        Mat gray = new Mat();
+        Mat binary = new Mat();
+        Imgproc.cvtColor(textImage, gray, Imgproc.COLOR_BGR2GRAY);
+        Imgproc.threshold(gray, binary, 0, 255,
+                Imgproc.THRESH_BINARY_INV | Imgproc.THRESH_OTSU);
+        //寻找文本区域最新外接矩形
+        int w = binary.cols();
+        int h = binary.rows();
+        List<Point> points = new ArrayList<>();
+        int p = 0;
+        byte[] data = new byte[w*h];
+        binary.get(0,0, data);
+        int index = 0;
+        for(int row = 0; row < h; row++){
+            for(int col = 0; col < w; col++){
+                index = row*w + col;
+                p = data[index] & 0xff;
+                if(p == 255){
+                    points.add(new Point(col, row));
+                }
+            }
+        }
+        RotatedRect box = Imgproc.minAreaRect(new MatOfPoint2f(points.toArray(new Point[0])));
+        double angle = box.angle;
+        if(angle < -45){
+            angle += 90;
+        }
+        Point[] vertices = new Point[4];
+        box.points(vertices);
+        //de-skew偏斜校正
+        Mat rot_mat = Imgproc.getRotationMatrix2D(box.center, angle, 1);
+        Imgproc.warpAffine(binary,dst,rot_mat,binary.size(),Imgproc.INTER_CUBIC);
+        Core.bitwise_not(dst,dst);
+        gray.release();
+        binary.release();
+        rot_mat.release();
+    }
+
+
+
 
 
 }
