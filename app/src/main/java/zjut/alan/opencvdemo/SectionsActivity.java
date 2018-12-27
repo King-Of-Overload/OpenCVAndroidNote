@@ -20,6 +20,7 @@ import zjut.alan.opencvdemo.c5.ImageAnalysisActivity;
 import zjut.alan.opencvdemo.c7.CameraViewActivity;
 import zjut.alan.opencvdemo.c7.DisplayModeActivity;
 import zjut.alan.opencvdemo.c8.OcrDemoActivity;
+import zjut.alan.opencvdemo.c9.BeautyFaceActivity;
 
 public class SectionsActivity extends AppCompatActivity {
 
@@ -85,6 +86,9 @@ public class SectionsActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), OcrDemoActivity.class);
             intent.putExtra("TYPE", 3);
             startActivity(intent);
+        }else if(command.equals(AppConstants.CHAPTER_9TH_PGM_II)){
+            Intent intent = new Intent(getApplicationContext(), BeautyFaceActivity.class);
+            intent.putExtra("TYPE", 1);
         }
     }
 }

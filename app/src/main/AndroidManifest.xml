@@ -30,7 +30,8 @@
         <activity android:name=".c5.ImageAnalysisActivity" />
         <activity android:name=".c7.CameraViewActivity" />
         <activity android:name=".c7.DisplayModeActivity" />
-        <activity android:name=".c8.OcrDemoActivity"></activity>
+        <activity android:name=".c8.OcrDemoActivity" />
+        <activity android:name=".c9.BeautyFaceActivity"></activity>
     </application>
 
 </manifest>
